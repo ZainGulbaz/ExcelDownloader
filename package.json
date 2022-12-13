@@ -1,0 +1,13 @@
+{
+  "name": "ExcelDownloader",
+  "version": "1.0.0",
+  "description": "This parser is used to download excel from SQL queries.",
+  "main": "index.js",
+  "author": "Zain Gulbaz",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2"
+  }
+}
