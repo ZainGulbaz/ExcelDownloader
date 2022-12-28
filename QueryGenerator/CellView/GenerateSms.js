@@ -1,5 +1,5 @@
 import { getCellViewParams } from "../GetParams.js";
-import { addQuotes } from "../../Utils/CommonFunctions.js";
+import { addQuotes, stringToSqlIn } from "../../Utils/CommonFunctions.js";
 
 export const getCellViewSmsQuery = ({
   technology,
@@ -15,11 +15,12 @@ export const getCellViewSmsQuery = ({
   signalQualityBad,
   sinrGood,
   sinrBad,
+  database,
 }) => {
   if (technology == undefined) return "";
   let query = "";
   let { technologyTable, rat, ci, p, q, a } = getCellViewParams(technology);
-  let tableName = `smsInfo${technologyTable}Json`;
+  let tableName = `${database}.smsInfo${technologyTable}Json`;
 
   query +=
     "Select '" +
@@ -49,13 +50,12 @@ export const getCellViewSmsQuery = ({
     " AND starttime <= " +
     addQuotes(endTime);
 
-  if (!user=="*" && user=="" && everythingOkay) {
-    query += " AND clientIdg IN (" + user + ")";
+  if (!user == "*" && user == "" && everythingOkay) {
+    query += " AND clientIdg IN (" + stringToSqlIn(user) + ")";
   }
 
   query +=
     " GROUP BY datereceived , datesent , clientIdg ) as abc GROUP BY ci,a";
-  
-    return query;
 
+  return query;
 };

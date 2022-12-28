@@ -1,5 +1,5 @@
 import { getCellViewParams } from "../GetParams.js";
-import { addQuotes } from "../../Utils/CommonFunctions.js";
+import { addQuotes, stringToSqlIn } from "../../Utils/CommonFunctions.js";
 
 export const getCellViewCallQuery = ({
   technology,
@@ -15,12 +15,13 @@ export const getCellViewCallQuery = ({
   signalQualityBad,
   sinrGood,
   sinrBad,
+  database,
 }) => {
   if (technology == undefined) return "";
   let query = "",
     subQuery = "";
   let { technologyTable, rat, ci, p, q, a } = getCellViewParams(technology);
-  let tableName = `callInfo${technologyTable}Json`;
+  let tableName = `${database}.callInfo${technologyTable}Json`;
 
   query +=
     "Select '" +
@@ -75,16 +76,27 @@ export const getCellViewCallQuery = ({
   subQuery += queryFilter;
   subQuery += " AND connectedtimestamp != 0 ";
 
-  if(user!=="*")
-  {
-          query+= " AND id IN( select id from calls where clientIdg IN("+stringToSqlIn(user)+"))"; 
-          subQuery+= " AND id IN( select id from calls where clientIdg IN("+stringToSqlIn(user)+"))";     
+  if (user !== "*") {
+    query +=
+      " AND id IN( select id from calls where clientIdg IN(" +
+      stringToSqlIn(user) +
+      "))";
+    subQuery +=
+      " AND id IN( select id from calls where clientIdg IN(" +
+      stringToSqlIn(user) +
+      "))";
   }
 
-  query+= " ) as abc GROUP BY ci,a ";
+  query += " ) as abc GROUP BY ci,a ";
   subQuery += " ) as abc GROUP BY ci,a ";
 
-  let joinnedQuery = " SELECT a.*,b.callSetupTime FROM (" + query +") as a left join ("+subQuery+") as b " +" ON a.ci = b.ci and a.area = b.area";  
+  let joinnedQuery =
+    " SELECT a.*,b.callSetupTime FROM (" +
+    query +
+    ") as a left join (" +
+    subQuery +
+    ") as b " +
+    " ON a.ci = b.ci and a.area = b.area";
 
   return joinnedQuery;
 };

@@ -1,4 +1,4 @@
-import { addQuotes } from "../../Utils/CommonFunctions.js";
+import { addQuotes, stringToSqlIn } from "../../Utils/CommonFunctions.js";
 
 export const getCellViewWifiQuery = ({
   country,
@@ -6,9 +6,10 @@ export const getCellViewWifiQuery = ({
   startTime,
   endTime,
   packages,
+  database,
 }) => {
   let query = "";
-  let tableName = `wifiData`;
+  let tableName = `${database}.wifiData`;
   let packagesArr = packages.split(",");
 
   let packagesQry = "";
@@ -48,7 +49,13 @@ export const getCellViewWifiQuery = ({
     addQuotes(endTime) +
     " AND appPackageName in (" +
     packagesQry +
-    ")  GROUP BY wifiSSID";
+    ")";
+
+    if (!user.equals("*") && !user.equals("")) {
+      query = query + "AND clientIdg IN (" + stringToSqlIn(user) + ")";
+    }
+
+    query+="GROUP BY wifiSSID"
 
   return query;
 };

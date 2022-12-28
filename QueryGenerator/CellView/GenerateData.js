@@ -1,5 +1,5 @@
 import { getCellViewParams } from "../GetParams.js";
-import { addQuotes } from "../../Utils/CommonFunctions.js";
+import { addQuotes, stringToSqlIn } from "../../Utils/CommonFunctions.js";
 
 export const getCellViewDataQuery = ({
   technology,
@@ -16,6 +16,7 @@ export const getCellViewDataQuery = ({
   sinrGood,
   sinrBad,
   packages,
+  database,
 }) => {
   if (technology == undefined) return "";
   let query = "";
@@ -32,7 +33,7 @@ export const getCellViewDataQuery = ({
     rscp,
     sinr,
   } = getCellViewParams(technology);
-  let tableName = `dataInfo${technologyTable}JsonRunning`;
+  let tableName = `${database}.dataInfo${technologyTable}JsonRunning`;
   let packagesArr = packages.split(",");
 
   query =

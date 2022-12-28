@@ -1,5 +1,5 @@
 import { getCellViewParams } from "../GetParams.js";
-import { addQuotes } from "../../Utils/CommonFunctions.js";
+import { addQuotes, stringToSqlIn } from "../../Utils/CommonFunctions.js";
 
 export const getCellViewCoverageQuery = ({
   technology,
@@ -15,6 +15,7 @@ export const getCellViewCoverageQuery = ({
   signalQualityBad,
   sinrGood,
   sinrBad,
+  database,
 }) => {
   if (technology == undefined) return "";
   let query = "";
@@ -31,7 +32,7 @@ export const getCellViewCoverageQuery = ({
     rscp,
     sinr,
   } = getCellViewParams(technology);
-  let tableName = `cellInfo${technologyTable}Json`;
+  let tableName = `${database}.cellInfo${technologyTable}Json`;
   if (additionalParams3G == undefined) additionalParams3G = "";
 
   if (technology == "5G" || technology == "4G") {
@@ -132,7 +133,7 @@ export const getCellViewCoverageQuery = ({
     addQuotes(endTime);
 
   if (user != "*") {
-    query += ` AND clientIdg IN ${addQuotes(user)}`;
+    query += ` AND clientIdg IN (${stringToSqlIn(user)})`;
   }
 
   query += `${groupByQuery}) as abc GROUP BY ci,a`;
