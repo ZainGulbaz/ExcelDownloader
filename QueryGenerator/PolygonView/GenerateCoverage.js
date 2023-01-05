@@ -36,7 +36,7 @@ export const getPolygonViewCoverageQuery = async ({
   if (additionalParams3G == undefined) additionalParams3G = "";
   let query = "";
   groupByQuery = groupByQuery.replace("ci", "cellid");
-  const polygons = await getPolygons(mcc);
+  const polygons = await getPolygons(mcc, database);
 
   for (let i = 0; i < polygons.length; i++) {
     if (i !== 0) query += " UNION ";

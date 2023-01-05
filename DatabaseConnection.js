@@ -1,15 +1,14 @@
 import mariadb from "mariadb";
 
 export const pool = mariadb.createPool({
-  host: "::1",
-  user: "root",
-  password: "root",
-  connectionLimit: 10,
-  port: 3308,
-  database: "cemoperator",
   multipleStatements: true,
+  host: "localhost",
+  socketPath: "/var/lib/mysql/mysql.sock",
+  user: "root",
+  password: "",
+  database: "mycemCommons",
+  connectionLimit: 10,
 });
-
 const getConnection = async () => {
   let connection;
   try {

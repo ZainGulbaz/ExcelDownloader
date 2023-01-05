@@ -25,7 +25,7 @@ export const getPolygonViewCallQuery = async ({
   let { technologyTable, rat, ci, p, q, a } = getCellViewParams(technology);
   let tableName = `${database}.callInfo${technologyTable}Json`;
 
-  const polygons = await getPolygons(mcc);
+  const polygons = await getPolygons(mcc, database);
   for (let i = 0; i < polygons.length; i++) {
     if (i !== 0) joinnedQuery += " UNION ";
     query =

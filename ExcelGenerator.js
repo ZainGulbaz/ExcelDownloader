@@ -5,10 +5,10 @@ import { pool } from "./DatabaseConnection.js";
 import logger from "./Logger.js";
 import { addQuotes } from "./Utils/CommonFunctions.js";
 
-const excelGenerator = async (headingColumnNames, data, uuid) => {
+const excelGenerator = async (headingColumnNames, data, uuid, database) => {
   try {
     const wb = new xl.Workbook();
-    const ws = wb.addWorksheet("Mycem Sheet");
+    const ws = wb.addWorksheet("Mycemsheet");
 
     let headingColumnIndex = 1;
     headingColumnNames.forEach((heading) => {
@@ -30,7 +30,9 @@ const excelGenerator = async (headingColumnNames, data, uuid) => {
 
     wb.write(`${__dirname}/Downloads/${uuid}.xlsx`);
     await pool.query(
-      `UPDATE excel_generator SET downloaded=1 WHERE uuid=${addQuotes(uuid)}`
+      `UPDATE ${database}.excel_generator SET downloaded=1 WHERE uuid=${addQuotes(
+        uuid
+      )}`
     );
 
     logger.info(

@@ -20,7 +20,7 @@ export const getPolygonViewWifiQuery = async ({
     packagesQry += "'" + packagesArr[i] + "',";
   }
   packagesQry = packagesQry.substring(0, packagesQry.length - 1);
-  const polygons = await getPolygons(mcc);
+  const polygons = await getPolygons(mcc, database);
   for (let i = 0; i < polygons.length; i++) {
     if (i !== 0) query += " UNION ";
     query +=

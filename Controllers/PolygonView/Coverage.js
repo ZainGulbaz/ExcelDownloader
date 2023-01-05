@@ -13,7 +13,7 @@ const getPolygonViewCoverageData = async (data) => {
     logger.info(
       "Query to get Coverage records is successfully implemented in getPolygonViewCoverageData"
     );
-    excelGenerator(columns, resData, data?.uuid);
+    excelGenerator(columns, resData, data?.uuid, data.database);
   } catch (err) {
     logger.error(
       "Query to get Coverage records is failed in getPolygonViewCoverageData"

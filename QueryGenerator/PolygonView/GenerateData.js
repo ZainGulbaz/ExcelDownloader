@@ -1,5 +1,5 @@
 import { getCellViewParams } from "../GetParams.js";
-import { addQuotes,stringToSqlIn } from "../../Utils/CommonFunctions.js";
+import { addQuotes, stringToSqlIn } from "../../Utils/CommonFunctions.js";
 import getPolygons from "../GetPolygons.js";
 
 export const getPolygonViewDataQuery = async ({
@@ -36,7 +36,7 @@ export const getPolygonViewDataQuery = async ({
   let tableName = `${database}.dataInfo${technologyTable}JsonRunning`;
   let packagesArr = packages.split(",");
   let query = "";
-  const polygons = await getPolygons(mcc);
+  const polygons = await getPolygons(mcc, database);
   for (let i = 0; i < polygons.length; i++) {
     if (i !== 0) query += " UNION ";
 

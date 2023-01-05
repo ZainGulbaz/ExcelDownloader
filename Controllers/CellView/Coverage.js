@@ -14,7 +14,7 @@ const getCellViewCoverageData = async (data) => {
     logger.info(
       "Query to get Coverage records is successfully implemented in getCellViewCoverageData"
     );
-    excelGenerator(columns, resData, data?.uuid);
+    excelGenerator(columns, resData, data?.uuid, data.database);
   } catch (err) {
     logger.error(
       "Query to get Coverage records is failed in getCellViewCoverageData"

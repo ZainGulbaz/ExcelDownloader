@@ -14,7 +14,7 @@ const getPolygonViewCallData = async (data) => {
     logger.info(
       "Query to get Call records is successfully implemented in getPolygonViewCallData"
     );
-    excelGenerator(columns, resData, data?.uuid);
+    excelGenerator(columns, resData, data?.uuid, data.database);
   } catch (err) {
     logger.error("Error in getPolygonViewCallData Function");
     console.log(err);

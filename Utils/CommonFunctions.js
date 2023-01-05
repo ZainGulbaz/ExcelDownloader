@@ -59,7 +59,7 @@ export async function isResValid(data, resData) {
       logger.info("No records found for respective request");
       console.log(data);
       let res = await pool.query(
-        `DELETE FROM ${enums.excelGenerator} WHERE id=${data.id}`
+        `DELETE FROM ${data.database}.${enums.excelGenerator} WHERE id=${data.id}`
       );
       return false;
     }
@@ -68,4 +68,21 @@ export async function isResValid(data, resData) {
     logger.error("Error in checking validity of request");
     console.log(err);
   }
+}
+
+export const mccToDatabase=async(mcc)=>{
+
+  try{
+  const mccDataRes= await pool.query(`SELECT * FROM mccData WHERE MCC=${mcc} LIMIT 1`);
+  const [countryRes]=mccDataRes;
+  console.log(countryRes);
+  return `mycem${countryRes.Country}`; 
+  }
+  catch(err)
+  {
+    logger.error("Error in mcc to Database");
+    console.log(err);
+    throw err;
+  }
+
 }

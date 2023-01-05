@@ -13,7 +13,7 @@ const getCellViewSmsData = async (data) => {
     logger.info(
       "Query to get Sms records is successfully implemented in getCellViewSmsData"
     );
-    excelGenerator(columns, resData, data?.uuid);
+    excelGenerator(columns, resData, data?.uuid, data.database);
   } catch (err) {
     logger.error("Query to get Sms records is failed in getCellViewSmsData");
     console.log(err);
